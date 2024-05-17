@@ -8,25 +8,23 @@ from utils.func_tools import (chatgpt_completion, convert_pdf_to_text, convert_t
     find_embedding_candidates, load_tokenizer, load_transformers, split_pages_into_chunks,
     vectorize)
 
-# Configuration Streamlit
 st.set_page_config(page_title="English Tutor", page_icon=":books:", layout="wide")
 
-# Interface utilisateur
 st.title("English Tutor Chat")
 st.markdown("### Posez vos questions et recevez des réponses adaptées à vos documents.")
 
-# Clés et paramètres
+
 #openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 transformers_cache = ""
 path2pdf_file = st.sidebar.file_uploader("Upload PDF file", type=["pdf"])
-#model_name = st.sidebar.text_input("Transformer Model Name", value="all-MiniLM-L6-v2")
 
-# État de l'application
 if 'knowledge_base' not in st.session_state:
     st.session_state.knowledge_base = None
 if 'transformer' not in st.session_state:
     st.session_state.transformer = None
-
+if 'history' not in st.session_state: 
+    st.session_state.history = []
+    
 def build_index(path2pdf_file):
     tokenizer = load_tokenizer()
     transformer = load_transformers(model_name="all-MiniLM-L6-v2", cache_folder=transformers_cache)
@@ -51,14 +49,17 @@ def get_response(query):
         top_k=7
     )
 
-    context = "###\n\n".join([f"Document N°{i+1}: {chunk}" for i, chunk in enumerate(paragraphes)])
-    completion_response = chatgpt_completion(context, query)
+    context = "\n\n".join(paragraphes)
+    completion_response = chatgpt_completion(context, query, st.session_state.history)
     
     response = ""
     for chunk in completion_response:
         content = chunk.choices[0].delta.content
         if content is not None:
             response += content
+    
+    st.session_state.history.append({"role": "user", "content": query})
+    st.session_state.history.append({"role": "assistant", "content": response})
         
     return response
 
@@ -67,7 +68,13 @@ if path2pdf_file is not None and st.sidebar.button("Chargez le document"):
     build_index(path2pdf_file)
 
 if st.session_state.knowledge_base:
-    user_query = st.text_input("Discutez: ")
+    for message in st.session_state.history:
+        if message["role"] == "user":
+            st.write(f"**Vous:** {message['content']}")
+        else:
+            st.write(f"**NexAI Tutor:** {message['content']}")
+            
+    user_query = st.text_input("Discutez:")
     if user_query:
         response = get_response(user_query)
         st.markdown("### Réponse")

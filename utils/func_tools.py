@@ -156,7 +156,7 @@ def find_embedding_candidates(query_embedding: np.ndarray, chunks: List[str], co
     sorted_chunks = sorted(zip(chunks, scores), key=op.itemgetter(1), reverse=True)
     return [chunk for chunk, _ in sorted_chunks[:top_k]]
 
-def chatgpt_completion(context: str, query: str):
+def chatgpt_completion(context: str, query: str, history: List[Dict[str, str]]):
     """
     Generates a response from the GPT-4 Turbo model based on the user's query within a given context.
 
@@ -168,13 +168,12 @@ def chatgpt_completion(context: str, query: str):
         Any: The response from the GPT-4 Turbo model.
     """
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    messages = [build_system_settings(context).dict()] + history + \
+              [Message(role=Role.USER, content=f"Voici ma question : {query}").dict()]
     
     completion_rsp = client.chat.completions.create(
         model='gpt-4-turbo',
-        messages=[
-            build_system_settings(context).dict(),
-            Message(role=Role.USER, content=f"Voici ma question : {query}").dict()
-        ],
+        messages=messages,
         stream=True 
     )
     return completion_rsp
