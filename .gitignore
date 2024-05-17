@@ -2,3 +2,10 @@
 .vscode
 ressources
 utils/__pycache__/
+.locks
+.locks/models--sentence-transformers--all-MiniLM-L6-v2
+.venv
+.vscode
+~
+models--sentence-transformers--all-MiniLM-L6-v2
+utils/__pycache__

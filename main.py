@@ -17,7 +17,7 @@ st.markdown("### Posez vos questions et recevez des réponses adaptées à vos d
 
 # Clés et paramètres
 #openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
-transformers_cache = os.environ["TRANSFORMERS_CACHE"]
+transformers_cache = ""
 path2pdf_file = st.sidebar.file_uploader("Upload PDF file", type=["pdf"])
 #model_name = st.sidebar.text_input("Transformer Model Name", value="all-MiniLM-L6-v2")
 
@@ -58,8 +58,7 @@ def get_response(query):
     for chunk in completion_response:
         content = chunk.choices[0].delta.content
         if content is not None:
-            content=""
-        response += content
+            response += content
         
     return response
 
@@ -74,4 +73,4 @@ if st.session_state.knowledge_base:
         st.markdown("### Réponse")
         st.write(response)
 else:
-    st.write("Veuillez télécharger un fichier PDF et construire l'index pour commencer.")
+    st.write("Veuillez chargez le fichier PDF ")
