@@ -1,4 +1,5 @@
-import openai 
+from openai import OpenAI
+import os
 import PyPDF2
 import tiktoken
 from docx import Document
@@ -11,6 +12,8 @@ from typing import List, Tuple, Dict, Any
 
 from utils.model_schema import Message, Role
 from utils.prompt_manager import build_system_settings
+
+# from config import OPENAI_API_KEY
 
 def load_tokenizer(encoder_name: str = 'gpt-4-turbo') -> tiktoken.Encoding:
     """
@@ -38,7 +41,7 @@ def load_transformers(model_name: str, cache_folder: str, device: str = 'cpu') -
         SentenceTransformer: An instance of the SentenceTransformer class, initialized with the specified model and configuration.
     """
     return SentenceTransformer(
-        model_name_or_path_name=model_name,
+        model_name_or_path=model_name,
         cache_folder=cache_folder,
         device=device
     )
@@ -153,7 +156,7 @@ def find_embedding_candidates(query_embedding: np.ndarray, chunks: List[str], co
     sorted_chunks = sorted(zip(chunks, scores), key=op.itemgetter(1), reverse=True)
     return [chunk for chunk, _ in sorted_chunks[:top_k]]
 
-def chatgpt_completion(context: str, query: str) -> Any:
+def chatgpt_completion(context: str, query: str):
     """
     Generates a response from the GPT-4 Turbo model based on the user's query within a given context.
 
@@ -164,7 +167,16 @@ def chatgpt_completion(context: str, query: str) -> Any:
     Returns:
         Any: The response from the GPT-4 Turbo model.
     """
-    completion_rsp = openai.ChatCompletion.create(
+    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    
+    client.completions.create(
+    model="gpt-3.5-turbo-instruct",
+    prompt="Say this is a test",
+    max_tokens=7,
+    temperature=0
+    )
+    
+    completion_rsp = client.chat.completions.create(
         model='gpt-4-turbo',
         messages=[
             build_system_settings(context).dict(),
@@ -173,3 +185,4 @@ def chatgpt_completion(context: str, query: str) -> Any:
         stream=True 
     )
     return completion_rsp
+
