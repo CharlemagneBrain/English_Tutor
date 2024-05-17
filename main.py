@@ -67,7 +67,7 @@ if path2pdf_file is not None and st.sidebar.button("Chargez le document"):
     build_index(path2pdf_file)
 
 if st.session_state.knowledge_base:
-    user_query = st.text_input("Enter your question:")
+    user_query = st.text_input("Discutez: ")
     if user_query:
         response = get_response(user_query)
         st.markdown("### Réponse")

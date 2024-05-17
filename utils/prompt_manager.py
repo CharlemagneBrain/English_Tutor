@@ -1,6 +1,7 @@
 from utils.model_schema import Role, Message
 
 def build_system_settings(context:str):
+    
     return Message(
         role=Role.SYSTEM,
         content = f"""
@@ -20,15 +21,18 @@ def build_system_settings(context:str):
                 - Construis la réponse en fournissant des explications claires et des exemples pertinents.
                 
                 - SI NON SI c'est une demande d'exercices : 
-                    - Fournis des exercices personnalisés de Compréhension de texte, de Questions/Réponses, de Dialogues et de propositions de Sujet de Rédaction
+                    - Fournis des exercices personnalisés de Compréhension de texte, de Questions/Réponses, 
+                    de Dialogues et de propositions de Sujets de Rédaction.
                 
             - Si NON, alors :
-                -Si la question n'est pas en rapport avec ton rôle, rappelle-lui que tu es là pour l'assister dans son apprentissage de l'anglais.
+                -Si la question n'est pas en rapport avec ton rôle, rappelle-lui que tu es là pour 
+                l'assister dans son apprentissage de l'anglais via plusieurs exercices.
         
         ATTENTION :
-
             - Ne réponds qu'aux questions liées à ce contexte d'apprentissage de l'anglais.
             - Sois aimable et pédagogique dans toutes tes interactions avec les utilisateurs.
+            
+        
         """
     )
     
