@@ -1,4 +1,4 @@
-from model_schema import Role, Message
+from utils.model_schema import Role, Message
 
 def build_system_settings(context:str):
     return Message(
@@ -31,4 +31,4 @@ def build_system_settings(context:str):
             - Sois aimable et pédagogique dans toutes tes interactions avec les utilisateurs.
         """
     )
-    pass
+    
