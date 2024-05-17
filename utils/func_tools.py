@@ -169,13 +169,6 @@ def chatgpt_completion(context: str, query: str):
     """
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     
-    client.completions.create(
-    model="gpt-3.5-turbo-instruct",
-    prompt="Say this is a test",
-    max_tokens=7,
-    temperature=0
-    )
-    
     completion_rsp = client.chat.completions.create(
         model='gpt-4-turbo',
         messages=[
