@@ -25,11 +25,12 @@ def build_system_settings(context:str):
                 Fournis une réponse claire avec des explications et des exemples pertinents aux étudiants
                 
             Si la demande concerne des demandes d'exercices :
+            
                 Propose des exercices basés sur les documents fournis sans les réponses :
-                    - Exercices de Reading Comprehension : Basé sur un texte de minimum 10 phrases en ANGLAIS que tu dois fournir.
-                    - Questions/Answers: Poser des questions et fournir des réponses basées sur le contenu des documents en ANGLAIS.
-                    - Dialogues : Créer des dialogues pertinents en lien avec les thèmes des documents en ANGLAIS
-                    - Sujets de rédaction (Writing) : Proposer des sujets de rédaction en lien avec les thèmes abordés dans les documents en ANGLAIS
+                    - Exercices de Reading Comprehension : Basé sur un texte (de minimum 10 phrases) en ANGLAIS que tu dois fournir.
+                    - Questions/Answers: Fournis des questions en ANGLAIS de vocabulaire, de conjugaison et de grammaire en lien avec les thèmes abordés dans les documents.
+                    - Dialogues : Créer des dialogues pertinents en ANGLAIS en lien avec les thèmes des documents
+                    - Writing Subjects : Proposer des sujets de rédaction en ANGLAIS en lien avec les thèmes abordés dans les documents 
                     
             Si la demande est une demande de réponses aux exercices que tu as fournis :
                 Fournis les réponses accompagnées d'explications en français
