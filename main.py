@@ -16,7 +16,7 @@ st.markdown("### Posez vos questions et recevez des réponses adaptées à vos d
 
 #openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 transformers_cache = ""
-uploaded_file = st.sidebar.file_uploader("Upload PDF or DOCX file", type=["pdf", "docx"])
+path2pdf_file = st.sidebar.file_uploader("Upload PDF file", type=["pdf"])
 
 if 'knowledge_base' not in st.session_state:
     st.session_state.knowledge_base = None
@@ -25,16 +25,14 @@ if 'transformer' not in st.session_state:
 if 'history' not in st.session_state: 
     st.session_state.history = []
     
-def build_index(uploaded_file):
+def build_index(path2pdf_file):
     tokenizer = load_tokenizer()
     transformer = load_transformers(model_name="all-MiniLM-L6-v2", cache_folder=transformers_cache)
 
-    pages = convert_to_text([uploaded_file.name]) # Modification ici
+    pages = convert_pdf_to_text(path2pdf_file)
+    st.write(f'Nombre de pages : {len(pages)}')
     chunks = split_pages_into_chunks(pages, 256, tokenizer)
     knowledge_base = vectorize(chunks, transformer)
-
-    st.session_state.knowledge_base = knowledge_base
-    st.session_state.transformer = transformer
 
     st.session_state.knowledge_base = knowledge_base
     st.session_state.transformer = transformer
@@ -66,9 +64,9 @@ def get_response(query):
     return response
 
 
-if uploaded_file is not None and st.sidebar.button("Chargez le document"):
-    build_index(uploaded_file)
-    
+if path2pdf_file is not None and st.sidebar.button("Chargez le document"):
+    build_index(path2pdf_file)
+
 if st.session_state.knowledge_base:
     for message in st.session_state.history:
         if message["role"] == "user":
