@@ -11,8 +11,7 @@ from utils.func_tools import (chatgpt_completion, convert_pdf_to_text, convert_t
 st.set_page_config(page_title="NexAI English Tutor", page_icon=":books:", layout="wide")
 
 st.title("NexAI English Tutor Chat")
-st.markdown("### Posez vos questions et recevez des réponses adaptées à vos documents.")
-
+st.markdown("### Welcome to your English Tutor! 👋📚")
 
 #openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 transformers_cache = ""
