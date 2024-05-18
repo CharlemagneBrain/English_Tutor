@@ -8,9 +8,9 @@ from utils.func_tools import (chatgpt_completion, convert_pdf_to_text, convert_t
     find_embedding_candidates, load_tokenizer, load_transformers, split_pages_into_chunks,
     vectorize)
 
-st.set_page_config(page_title="English Tutor", page_icon=":books:", layout="wide")
+st.set_page_config(page_title="NexAI English Tutor", page_icon=":books:", layout="wide")
 
-st.title("English Tutor Chat")
+st.title("NexAI English Tutor Chat")
 st.markdown("### Posez vos questions et recevez des réponses adaptées à vos documents.")
 
 
@@ -63,7 +63,7 @@ def get_response(query):
         
     return response
 
-# Interface principale
+
 if path2pdf_file is not None and st.sidebar.button("Chargez le document"):
     build_index(path2pdf_file)
 
