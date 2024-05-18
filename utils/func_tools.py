@@ -168,6 +168,7 @@ def chatgpt_completion(context: str, query: str, history: List[Dict[str, str]]):
         Any: The response from the GPT-4 Turbo model.
     """
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    
     messages = [build_system_settings(context).dict()] + history + \
               [Message(role=Role.USER, content=f"Voici ma question : {query}").dict()]
     
@@ -176,5 +177,6 @@ def chatgpt_completion(context: str, query: str, history: List[Dict[str, str]]):
         messages=messages,
         stream=True 
     )
+    
     return completion_rsp
 

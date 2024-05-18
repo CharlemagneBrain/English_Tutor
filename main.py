@@ -76,7 +76,6 @@ if st.session_state.knowledge_base:
     user_query = st.text_input("Discutez:")
     if user_query:
         response = get_response(user_query)
-        st.markdown("### Réponse")
         st.write(response)
 else:
     st.write("Veuillez chargez le fichier PDF ")
