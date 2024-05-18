@@ -1,6 +1,3 @@
-Bien sûr, voici un exemple de fichier `README.md` pour votre projet :
-
-
 # English Tutor Chatbot with RAG
 
 This project implements an English Tutor Chatbot powered by GPT-4 and a Retrieval-Augmented Generation (RAG) system. The chatbot helps French-speaking students improve their English skills by providing personalized feedback and exercises based on user-uploaded PDF documents. 
