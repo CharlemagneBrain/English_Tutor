@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-import torch as th
+
 import numpy as np
 
 from utils.model_schema import Role, Message
