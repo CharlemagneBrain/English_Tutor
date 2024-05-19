@@ -1,6 +1,6 @@
 # English Tutor Chatbot with RAG
 
-This project implements an English Tutor Chatbot powered by GPT-4 and a Retrieval-Augmented Generation (RAG) system. The chatbot helps French-speaking students improve their English skills by providing personalized feedback and exercises based on user-uploaded PDF documents. 
+This project implements an English Tutor Chatbot  The chatbot helps French-speaking students improve their English skills by providing personalized feedback and exercises based on user-uploaded PDF/DOCX documents. 
 
 ## Technical Overview
 

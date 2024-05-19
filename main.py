@@ -1,6 +1,6 @@
 import streamlit as st
+from docx import Document
 import os
-
 import numpy as np
 
 from utils.model_schema import Role, Message
@@ -15,7 +15,7 @@ st.markdown("### Welcome to your English Tutor! 👋📚")
 
 openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 transformers_cache = ""
-path2pdf_file = st.sidebar.file_uploader("Upload PDF file", type=["pdf"])
+uploaded_files = st.sidebar.file_uploader("Upload PDF or DOCX files", type=["pdf", "docx"], accept_multiple_files=True)
 
 if 'knowledge_base' not in st.session_state:
     st.session_state.knowledge_base = None
@@ -24,15 +24,23 @@ if 'transformer' not in st.session_state:
 if 'history' not in st.session_state: 
     st.session_state.history = []
     
-def build_index(path2pdf_file):
+def build_index(uploaded_files):
     tokenizer = load_tokenizer()
     transformer = load_transformers(model_name="all-MiniLM-L6-v2", cache_folder=transformers_cache)
 
-    pages = convert_pdf_to_text(path2pdf_file)
-    st.write(f'Nombre de pages : {len(pages)}')
-    chunks = split_pages_into_chunks(pages, 256, tokenizer)
+    file_paths = [file.name for file in uploaded_files]
+    for file in uploaded_files:
+        with open(file.name, 'wb') as f:
+            f.write(file.getbuffer())
+
+    texts = convert_to_text(file_paths)
+    st.write(f'Nombre de documents fournis: {len(file_paths)}')
+    chunks = split_pages_into_chunks(texts, 512, tokenizer)
     knowledge_base = vectorize(chunks, transformer)
 
+    for file_path in file_paths:
+        os.remove(file_path)
+        
     st.session_state.knowledge_base = knowledge_base
     st.session_state.transformer = transformer
 
@@ -63,8 +71,8 @@ def get_response(query):
     return response
 
 
-if path2pdf_file is not None and st.sidebar.button("Chargez le document"):
-    build_index(path2pdf_file)
+if uploaded_files is not None and st.sidebar.button("Chargez le document"):
+    build_index(uploaded_files)
 
 if st.session_state.knowledge_base:
     for message in st.session_state.history:
