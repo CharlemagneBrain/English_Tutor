@@ -13,7 +13,7 @@ st.set_page_config(page_title="NexAI English Tutor", page_icon=":books:", layout
 st.title("NexAI English Tutor Chat")
 st.markdown("### Welcome to your English Tutor! 👋📚")
 
-#openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 transformers_cache = ""
 path2pdf_file = st.sidebar.file_uploader("Upload PDF file", type=["pdf"])
 
@@ -49,7 +49,7 @@ def get_response(query):
     )
 
     context = "\n\n".join(paragraphes)
-    completion_response = chatgpt_completion(context, query, st.session_state.history)
+    completion_response = chatgpt_completion(context, query, st.session_state.history, api_key=openai_api_key)
     
     response = ""
     for chunk in completion_response:
