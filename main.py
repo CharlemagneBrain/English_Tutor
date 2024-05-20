@@ -2,9 +2,10 @@ import streamlit as st
 from docx import Document
 import os
 import numpy as np
+import asyncio
 
 from utils.model_schema import Role, Message
-from utils.func_tools import (chatgpt_completion, convert_pdf_to_text, convert_to_text,
+from utils.func_tools import (chatgpt_completion, async_convert_to_text,
     find_embedding_candidates, load_tokenizer, load_transformers, split_pages_into_chunks,
     vectorize)
 
@@ -24,7 +25,18 @@ if 'transformer' not in st.session_state:
 if 'history' not in st.session_state: 
     st.session_state.history = []
     
-def build_index(uploaded_files):
+async def build_index_async(uploaded_files):
+    """
+        Asynchronously builds an index from uploaded files.
+
+        This function handles the uploading of files, converts them to text,
+        splits the text into manageable chunks, vectorizes these chunks, and
+        stores the resulting knowledge base in the session state.
+
+        Args:
+        - uploaded_files (list of UploadedFile): A list of files uploaded by the user.
+       
+    """
     tokenizer = load_tokenizer()
     transformer = load_transformers(model_name="all-MiniLM-L6-v2", cache_folder=transformers_cache)
 
@@ -33,14 +45,14 @@ def build_index(uploaded_files):
         with open(file.name, 'wb') as f:
             f.write(file.getbuffer())
 
-    texts = convert_to_text(file_paths)
+    texts = await async_convert_to_text(file_paths)
     st.write(f'Nombre de documents fournis: {len(file_paths)}')
     chunks = split_pages_into_chunks(texts, 512, tokenizer)
     knowledge_base = vectorize(chunks, transformer)
 
     for file_path in file_paths:
         os.remove(file_path)
-        
+
     st.session_state.knowledge_base = knowledge_base
     st.session_state.transformer = transformer
 
@@ -71,8 +83,8 @@ def get_response(query):
     return response
 
 
-if uploaded_files is not None and st.sidebar.button("Chargez le document"):
-    build_index(uploaded_files)
+if uploaded_files and st.sidebar.button("Chargez le document"):
+    asyncio.run(build_index_async(uploaded_files))
 
 if st.session_state.knowledge_base:
     for message in st.session_state.history:

@@ -12,6 +12,8 @@ from typing import List, Tuple, Dict, Any
 
 from utils.model_schema import Message, Role
 from utils.prompt_manager import build_system_settings
+import asyncio
+
 
 # from config import OPENAI_API_KEY
 
@@ -46,56 +48,38 @@ def load_transformers(model_name: str, cache_folder: str, device: str = 'cpu') -
         device=device
     )
 
-def convert_pdf_to_text(pdf_file: str) -> List[str]:
+
+async def async_convert_pdf_to_text(pdf_file: str) -> List[str]:
+    reader = PyPDF2.PdfReader(pdf_file)
+    return [page.extract_text() for page in reader.pages]
+
+async def async_convert_docx_to_text(docx_file: str) -> List[str]:
+    doc = Document(docx_file)
+    return [paragraph.text for paragraph in doc.paragraphs]
+
+async def async_convert_to_text(file_paths: List[str]) -> List[str]:
     """
-    Convert a PDF file to a list of text strings, one per page.
+        Asynchronously converts multiple files (PDF or DOCX) to text. This function determines the type of each file
+        and calls the appropriate conversion function.
 
-    Args:
-        pdf_file (str): The file path of the PDF document to be converted.
+        Args:
+        file_paths (List[str]): A list of file paths, where each path points to a PDF or DOCX file.
 
-    Returns:
-        List[str]: A list containing the extracted text from each page of the PDF.
-    """
-    try:
-        reader = PyPDF2.PdfReader(pdf_file)
-        return [page.extract_text() for page in reader.pages]
-    except Exception as e:
-        raise ValueError(f"Error reading PDF file {pdf_file}: {e}")
-
-def convert_docx_to_text(docx_file: str) -> List[str]:
-    """
-    Convert a DOCX file to a list of text strings, one per paragraph.
-
-    Args:
-        docx_file (str): The file path of the DOCX document to be converted.
-
-    Returns:
-        List[str]: A list containing the text of each paragraph in the DOCX document.
-    """
-    try:
-        doc = Document(docx_file)
-        return [paragraph.text for paragraph in doc.paragraphs]
-    except Exception as e:
-        raise ValueError(f"Error reading DOCX file {docx_file}: {e}")
-
-def convert_to_text(file_paths: List[str]) -> List[str]:
-    """
-    Convert multiple files to text, where each file can be either a PDF or a DOCX.
-
-    Args:
-        file_paths (List[str]): A list of file paths to be converted.
-
-    Returns:
-        List[str]: A list of strings, containing the text extracted from all files.
+        Returns:
+        List[str]: A combined list of strings containing the text extracted from all the files.
     """
     results: List[str] = []
+    tasks = []
+    
     for file_path in file_paths:
         if file_path.endswith('.pdf'):
-            results.extend(convert_pdf_to_text(file_path))
+            tasks.append(async_convert_pdf_to_text(file_path))
         elif file_path.endswith('.docx'):
-            results.extend(convert_docx_to_text(file_path))
-        else:
-            raise ValueError(f"Unsupported file format: {file_path}")
+            tasks.append(async_convert_docx_to_text(file_path))
+
+    texts = await asyncio.gather(*tasks)
+    for text in texts:
+        results.extend(text)
     return results
 
 def split_pages_into_chunks(pages: List[str], chunk_size: int, tokenizer: tiktoken.Encoding) -> List[str]:
