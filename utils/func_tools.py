@@ -1,21 +1,16 @@
 from openai import OpenAI
-import os
 import PyPDF2
 import tiktoken
 from docx import Document
 from sentence_transformers import SentenceTransformer
-
 import numpy as np
 import operator as op 
 import itertools as it
 from typing import List, Tuple, Dict, Any
-
 from utils.model_schema import Message, Role
 from utils.prompt_manager import build_system_settings
 import asyncio
-
-
-# from config import OPENAI_API_KEY
+from qdrant_client import QdrantClient
 
 def load_tokenizer(encoder_name: str = 'gpt-4-turbo') -> tiktoken.Encoding:
     """
@@ -120,26 +115,38 @@ def vectorize(chunks: List[str], transformer: SentenceTransformer, device: str =
     )
     return list(zip(chunks, embeddings))
 
-def find_embedding_candidates(query_embedding: np.ndarray, chunks: List[str], corpus_embeddings: np.ndarray, top_k: int = 7) -> List[str]:
-    """
-    Find the top-k embedding candidates for a given query embedding.
+# def find_embedding_candidates(query_embedding: np.ndarray, chunks: List[str], corpus_embeddings: np.ndarray, top_k: int = 7) -> List[str]:
+#     """
+#     Find the top-k embedding candidates for a given query embedding.
 
-    Args:
-        query_embedding (np.ndarray): The embedding of the query.
-        chunks (List[str]): The text chunks available for comparison.
-        corpus_embeddings (np.ndarray): The embeddings of the text chunks.
-        top_k (int): The number of top candidates to return. Default is 7.
+#     Args:
+#         query_embedding (np.ndarray): The embedding of the query.
+#         chunks (List[str]): The text chunks available for comparison.
+#         corpus_embeddings (np.ndarray): The embeddings of the text chunks.
+#         top_k (int): The number of top candidates to return. Default is 7.
 
-    Returns:
-        List[str]: A list of the top-k text chunks that are most similar to the query.
-    """
-    dot_product = np.dot(query_embedding, corpus_embeddings.T)
-    norms = np.linalg.norm(query_embedding) * np.linalg.norm(corpus_embeddings, axis=1)
-    scores = dot_product / norms
+#     Returns:
+#         List[str]: A list of the top-k text chunks that are most similar to the query.
+#     """
+#     dot_product = np.dot(query_embedding, corpus_embeddings.T)
+#     norms = np.linalg.norm(query_embedding) * np.linalg.norm(corpus_embeddings, axis=1)
+#     scores = dot_product / norms
 
-    sorted_chunks = sorted(zip(chunks, scores), key=op.itemgetter(1), reverse=True)
+#     sorted_chunks = sorted(zip(chunks, scores), key=op.itemgetter(1), reverse=True)
     
-    return [chunk for chunk, _ in sorted_chunks[:top_k]]
+#     return [chunk for chunk, _ in sorted_chunks[:top_k]]
+
+def find_embedding_candidates(query_embedding: np.ndarray, top_k: int = 7) -> List[str]:
+    client = QdrantClient(
+        url="https://c80cf935-0f6b-4fe6-af49-9da5c9752f82.us-east4-0.gcp.cloud.qdrant.io:6333", 
+        api_key="Dc_jwEpz1fHy5oqx6OX1gUuDmCTkm-ghCo0dwyliQv7XYLN9KLFdVw",
+    )
+    response = client.search(
+        collection_name="toefl_tutor",
+        query_vector=query_embedding.tolist(),
+        limit=top_k
+    )
+    return [hit.payload['text'] for hit in response]
 
 def chatgpt_completion(context: str, query: str, history: List[Dict[str, str]], api_key: str):
     """

@@ -9,3 +9,5 @@ utils/__pycache__/
 ~
 models--sentence-transformers--all-MiniLM-L6-v2
 utils/__pycache__
+models_cache
+qdrant_storage
