@@ -7,6 +7,7 @@ utils/__pycache__/
 .venv
 .vscode
 ~
+cache
 models--sentence-transformers--all-MiniLM-L6-v2
 utils/__pycache__
 models_cache

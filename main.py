@@ -50,4 +50,4 @@ if user_query:
     response = get_response(user_query)
     st.write(response)
 else:
-    st.write("Chargement des documents")
+    st.write("Patience !")
