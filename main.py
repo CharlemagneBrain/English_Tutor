@@ -3,6 +3,7 @@ import numpy as np
 import asyncio
 from utils.model_schema import Role, Message
 from utils.func_tools import chatgpt_completion, find_embedding_candidates, load_transformers
+from streamlit_chat import message
 
 st.set_page_config(page_title="NexAI English Tutor", page_icon=":books:", layout="wide")
 
@@ -45,7 +46,7 @@ for message in st.session_state.history:
     else:
         st.write(f"**NexAI Tutor:** {message['content']}")
         
-user_query = st.text_input("Discutez:")
+user_query = st.chat_input("Discutez !")
 if user_query:
     response = get_response(user_query)
     st.write(response)

@@ -12,13 +12,13 @@ from utils.prompt_manager import build_system_settings
 import asyncio
 from qdrant_client import QdrantClient
 
-def load_tokenizer(encoder_name: str = 'gpt-4-turbo') -> tiktoken.Encoding:
+def load_tokenizer(encoder_name: str = 'gpt-4o') -> tiktoken.Encoding:
     """
     Load a tokenizer based on the specified encoder model.
     For dividing text into chunks.
 
     Args:
-        encoder_name (str): The name of the encoder model to be used for tokenization. Default is 'gpt-4-turbo'.
+        encoder_name (str): The name of the encoder model to be used for tokenization. Default is 'gpt-4o'.
 
     Returns:
         tiktoken.Encoding: An instance of the Encoding class from the tiktoken library, initialized with the specified encoder.
@@ -167,7 +167,7 @@ def chatgpt_completion(context: str, query: str, history: List[Dict[str, str]], 
               [Message(role=Role.USER, content=f"Voici ma question : {query}").dict()]
     
     completion_rsp = client.chat.completions.create(
-        model='gpt-4-turbo',
+        model='gpt-4o',
         messages=messages,
         stream=True 
     )
