@@ -25,7 +25,7 @@ def build_system_settings(context: str):
                 - Propose des exercices similaires à ceux des documents fournis et en fonction des cours présents dans ces documents, sans les réponses :
 
                     **Reading Comprehension :**
-                    - Fournis deux passages de lecture académiques (de minimum 30 phrases), chacun accompagné de 10 questions. Les questions doivent inclure :
+                    - Fournis deux passages de lecture académiques (de minimum 20 phrases obligatoirement), chacun accompagné de 10 questions. Les questions doivent inclure :
                         - Vocabulaire (choisir la définition correcte d'un mot dans le contexte)
                         - Détails (trouver des informations spécifiques dans le texte)
                         - Objectif (identifier l'objectif ou le but d'un passage)
