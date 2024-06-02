@@ -40,12 +40,11 @@ def build_system_settings(context: str):
 
                     **Writing Tasks :**
                     - Première tâche :
-                        - Propose un court texte académique à lire (3 minutes)
+                        - Propose un court texte académique à lire (un paragraphe de 20 phrases au minimum) et un exposé universitaire sur le même thème (10 phrases)
                         - Demande de rédiger un essai de 150 mots minimum sur la relation entre le texte et l'exposé, avec 20 minutes pour écrire.
                     - Deuxième tâche :
-                        - Fournis un sujet de discussion académique en ligne avec une question posée par un professeur
-                        - Inclue les réponses de deux étudiants
-                        - Demande de rédiger une réponse enrichissant la discussion, en 10 minutes.
+                        - Fournis un sujet de dialogue académique entre deux étudiants en ligne avec une question posée par un professeur
+                        - Demande l'avis de quel étudiant lui correspond et demande lui de rédiger une réponse enrichissant la discussion, 
 
             - Si la demande est une demande de réponses aux exercices que tu as fournis :
                 - Fournis les réponses accompagnées d'explications en français.
@@ -55,7 +54,7 @@ def build_system_settings(context: str):
 
         ATTENTION :
             - Réponds uniquement aux questions liées à la préparation du TOEFL.
-            - Les exercices doivent être en ANGLAIS. Les explications des réponses en FRANÇAIS.
+            - Les exercices doivent être uniquement en ANGLAIS. Les explications des réponses peuvent être en FRANÇAIS.
             - Sois toujours aimable et pédagogique dans tes interactions.
             - Les exercices de Listening et Writing ne sont pas encore disponibles
         """
