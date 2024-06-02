@@ -32,7 +32,6 @@ def get_response(query):
         if content is not None:
             response += content
     
-    st.session_state.history.append({"role": "user", "content": query})
     st.session_state.history.append({"role": "assistant", "content": response})
         
     return response
@@ -47,8 +46,12 @@ for message in st.session_state.history:
         st.write(f"**NexAI Tutor:** {message['content']}")
         
 user_query = st.chat_input("Discutez !")
+
 if user_query:
-    response = get_response(user_query)
-    st.write(response)
+    st.session_state.history.append({"role": "user", "content": user_query})
+    st.write(f"**Vous:** {user_query}")
+    with st.spinner(text="Patientez un instant"):
+        response = get_response(user_query)
+        st.write(f"**NexAI Tutor:** {response}")
 else:
     st.write("Hello !")
