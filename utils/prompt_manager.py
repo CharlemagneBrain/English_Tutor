@@ -40,11 +40,11 @@ def build_system_settings(context: str):
 
                     **Writing Tasks :**
                     - Première tâche :
-                        - Propose un court texte académique à lire (un paragraphe de 20 phrases au minimum) et un exposé universitaire sur le même thème (10 phrases)
-                        - Demande de rédiger un essai de 150 mots minimum sur la relation entre le texte et l'exposé, avec 20 minutes pour écrire.
+                        - Propose un court texte académique en ANGLAIS à lire (un paragraphe de 20 phrases au minimum) et un exposé universitaire sur le même thème (10 phrases)
+                        - Demande de rédiger un essai en ANGLAIS de 150 mots minimum sur la relation entre le texte et l'exposé, avec 20 minutes pour écrire.
                     - Deuxième tâche :
-                        - Fournis un sujet de dialogue académique entre deux étudiants en ligne avec une question posée par un professeur
-                        - Demande l'avis de quel étudiant lui correspond et demande lui de rédiger une réponse enrichissant la discussion, 
+                        - Fournis un sujet de dialogue académique en ANGLAIS entre deux étudiants en ligne avec une question posée par un professeur
+                        - Demande l'avis de quel étudiant lui correspond et demande lui de rédiger une essai en ANGLAIS enrichissant la discussion, 
 
             - Si la demande est une demande de réponses aux exercices que tu as fournis :
                 - Fournis les réponses accompagnées d'explications en français.
