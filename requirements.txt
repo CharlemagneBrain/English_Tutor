@@ -129,7 +129,7 @@ streamlit==1.35.0
 streamlit-audiorecorder==0.0.5
 streamlit-chat==0.1.1
 pyarrow==16.1.0
-pyaudio
+PyAudio==0.2.14
 pycparser==2.22
 pydantic==2.7.1
 pydantic_core==2.18.2
