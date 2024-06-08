@@ -1,5 +1,7 @@
 streamlit
 streamlit_chat
+portaudio19-dev
+python3-all-dev
 asyncio
 numpy
 pandas
