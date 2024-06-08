@@ -125,6 +125,9 @@ protobuf==4.25.3
 psutil==5.9.8
 ptyprocess==0.7.0
 pure-eval==0.2.2
+streamlit==1.35.0
+streamlit-audiorecorder==0.0.5
+streamlit-chat==0.1.1
 pyarrow==16.1.0
 pyaudio
 pycparser==2.22
@@ -167,9 +170,6 @@ SQLAlchemy==2.0.30
 srsly==2.4.8
 stack-data==0.6.3
 starlette==0.37.2
-streamlit==1.35.0
-streamlit-audiorecorder==0.0.5
-streamlit-chat==0.1.1
 striprtf==0.0.26
 sympy==1.12
 tenacity==8.3.0
