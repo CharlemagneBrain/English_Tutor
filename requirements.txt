@@ -1,7 +1,6 @@
 streamlit
 streamlit_chat
-portaudio19-dev
-python3-all-dev
+pyaudio
 asyncio
 numpy
 pandas
@@ -11,5 +10,4 @@ tiktoken
 sentence_transformers
 qdrant_client
 python-docx
-PyAudio
 wave
