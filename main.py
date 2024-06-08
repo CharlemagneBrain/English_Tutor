@@ -2,11 +2,8 @@ import streamlit as st
 import numpy as np
 import asyncio
 from utils.model_schema import Role, Message
-from utils.func_tools import chatgpt_completion, find_embedding_candidates, load_transformers, record_audio, transcrire_audio
+from utils.func_tools import chatgpt_completion, find_embedding_candidates, load_transformers
 from streamlit_chat import message
-import time
-import os
-
 
 st.set_page_config(page_title="NexAI English Tutor", page_icon=":books:", layout="wide")
 
@@ -19,10 +16,6 @@ if 'transformer' not in st.session_state:
     st.session_state.transformer = None
 if 'history' not in st.session_state: 
     st.session_state.history = []
-if 'is_recording' not in st.session_state:
-    st.session_state.is_recording = False 
-if 'recording_duration' not in st.session_state:
-    st.session_state.recording_duration = 5
 
 async def initialize_transformer():
     st.session_state.transformer = load_transformers(model_name="all-MiniLM-L6-v2", cache_folder="models_cache")
@@ -51,35 +44,14 @@ for message in st.session_state.history:
         st.write(f"**Vous:** {message['content']}")
     else:
         st.write(f"**NexAI Tutor:** {message['content']}")
-
+        
 user_query = st.chat_input("Discutez !")
 
 if user_query:
     st.session_state.history.append({"role": "user", "content": user_query})
     st.write(f"**Vous:** {user_query}")
-    with st.spinner(text="..."):
+    with st.spinner(text="Patientez un instant"):
         response = get_response(user_query)
         st.write(f"**NexAI Tutor:** {response}")
 else:
     st.write("Hello !")
-
-if st.sidebar.button("Enregistrez"):
-    st.session_state.is_recording = True
-    with st.spinner("Vous avez 10sec..."):
-        audio_file = record_audio(duration=st.session_state.recording_duration)
-        st.write("Terminé.")
-        st.session_state.is_recording = False
-        with st.spinner("Transcription..."):
-            transcription = transcrire_audio(audio_file, api_key=openai_api_key)
-            st.session_state.history.append({"role": "user", "content": transcription})
-            st.write(f"**Vous:** {transcription}")
-            response = get_response(transcription)
-            st.write(f"**NexAI Tutor:** {response}")
-        os.remove(audio_file)
-
-if st.session_state.is_recording:
-    st.sidebar.progress(0)
-    for i in range(st.session_state.recording_duration):
-        time.sleep(1)
-        st.sidebar.progress((i + 1) / st.session_state.recording_duration)
-    st.sidebar.write("Finished")

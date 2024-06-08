@@ -9,11 +9,8 @@ import itertools as it
 from typing import List, Tuple, Dict, Any
 from utils.model_schema import Message, Role
 from utils.prompt_manager import build_system_settings
-import asyncio, pyaudio, wave
+import asyncio
 from qdrant_client import QdrantClient
-import streamlit as st
-import tempfile
-from threading import Thread
 
 def load_tokenizer(encoder_name: str = 'gpt-4o') -> tiktoken.Encoding:
     """
@@ -176,52 +173,3 @@ def chatgpt_completion(context: str, query: str, history: List[Dict[str, str]], 
     )
     
     return completion_rsp
-
-def record_audio(duration=10):
-    FORMAT = pyaudio.paInt16
-    CHANNELS = 1
-    RATE = 44100
-    CHUNK = 64
-
-    audio = pyaudio.PyAudio()
-
-    stream = audio.open(
-        format=FORMAT,
-        channels=CHANNELS,
-        rate=RATE,
-        input=True,
-        frames_per_buffer=CHUNK,
-        input_device_index=0 
-    )
-
-    frames = []
-    for _ in range(0, int(RATE / CHUNK * duration)):
-        data = stream.read(CHUNK, exception_on_overflow=False)
-        frames.append(data)
-
-    stream.stop_stream()
-    stream.close()
-    audio.terminate()
-
-    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.wav')
-    with wave.open(temp_file.name, 'wb') as waveFile:
-        waveFile.setnchannels(CHANNELS)
-        waveFile.setsampwidth(audio.get_sample_size(FORMAT))
-        waveFile.setframerate(RATE)
-        waveFile.writeframes(b''.join(frames))
-
-    return temp_file.name
-
-def transcrire_audio(audio_file: str, api_key: str) -> str:
-    
-    client = OpenAI(api_key=api_key) 
-
-    with open(audio_file, "rb") as f:
-        transcription = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=f,
-            response_format="text"
-        )
-    return transcription
-
-
