@@ -173,3 +173,15 @@ def chatgpt_completion(context: str, query: str, history: List[Dict[str, str]], 
     )
     
     return completion_rsp
+
+def transcrire_audio(audio_file: str, api_key: str) -> str:
+    
+    client = OpenAI(api_key=api_key) 
+
+    with open(audio_file, "rb") as f:
+        transcription = client.audio.transcriptions.create(
+            model="whisper-1",
+            file=f,
+            response_format="text"
+        )
+    return transcription
