@@ -64,13 +64,13 @@ if len(audio) > 0:
 
     st.audio(audio.export().read())  
 
-    audio.export("audio_files/audio.wav", format="wav")
+    audio.export("utils/audio_files/audio.wav", format="wav")
     with st.spinner("Transcription..."):
-            transcription = transcrire_audio("audio_files/audio.wav", api_key=openai_api_key)
+            transcription = transcrire_audio("utils/audio_files/audio.wav", api_key=openai_api_key)
             st.session_state.history.append({"role": "user", "content": transcription})
             st.write(f"**Vous:** {transcription}")
             response = get_response(transcription)
             st.write(f"**NexAI Tutor:** {response}")
-    os.remove("audio_files/audio.wav")
+    os.remove("utils/audio_files/audio.wav")
 else:
     st.write("Hello !")
