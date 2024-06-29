@@ -7,8 +7,8 @@ import numpy as np
 import operator as op 
 import itertools as it
 from typing import List, Tuple, Dict, Any
-from model_schema import Message, Role
-from prompt_manager import build_system_settings
+from utils.model_schema import Message, Role
+from utils.prompt_manager import build_system_settings
 import asyncio
 from qdrant_client import QdrantClient
 
