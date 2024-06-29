@@ -7,7 +7,7 @@ from func_tools import async_convert_to_text, load_tokenizer, load_transformers,
 
 def create_qdrant_index():
     client = QdrantClient(
-        url="https://c80cf935-0f6b-4fe6-af49-9da5c9752f82.us-east4-0.gcp.cloud.qdrant.io:6333", 
+        url="https://c80cf935-0f6b-4fe6-af49-9da5c9752f82.us-east4-0.gcp.cloud.qdrant.io", 
         api_key="Dc_jwEpz1fHy5oqx6OX1gUuDmCTkm-ghCo0dwyliQv7XYLN9KLFdVw",
     )
     client.recreate_collection(
@@ -18,7 +18,7 @@ def create_qdrant_index():
 async def ingest_files_to_qdrant():
 
     client = QdrantClient(
-        url="https://c80cf935-0f6b-4fe6-af49-9da5c9752f82.us-east4-0.gcp.cloud.qdrant.io:6333", 
+        url="https://c80cf935-0f6b-4fe6-af49-9da5c9752f82.us-east4-0.gcp.cloud.qdrant.io", 
         api_key="Dc_jwEpz1fHy5oqx6OX1gUuDmCTkm-ghCo0dwyliQv7XYLN9KLFdVw",
     )
 

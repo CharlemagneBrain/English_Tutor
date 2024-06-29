@@ -61,10 +61,11 @@ if user_query:
         st.write(f"**NexAI Tutor:** {response}")
         
 if len(audio) > 0:
-
+    st.session_state.is_recording = True
     st.audio(audio.export().read())  
 
     audio.export("utils/audio_tutor/audio.wav", format="wav")
+    st.session_state.is_recording = False 
     with st.spinner("Transcription..."):
             transcription = transcrire_audio("utils/audio_tutor/audio.wav", api_key=openai_api_key)
             st.session_state.history.append({"role": "user", "content": transcription})

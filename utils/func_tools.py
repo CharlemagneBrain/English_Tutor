@@ -7,12 +7,12 @@ import numpy as np
 import operator as op 
 import itertools as it
 from typing import List, Tuple, Dict, Any
-from utils.model_schema import Message, Role
-from utils.prompt_manager import build_system_settings
+from model_schema import Message, Role
+from prompt_manager import build_system_settings
 import asyncio
 from qdrant_client import QdrantClient
 
-def load_tokenizer(encoder_name: str = 'gpt-4o') -> tiktoken.Encoding:
+def load_tokenizer(encoder_name: str = 'gpt-3.5-turbo') -> tiktoken.Encoding:
     """
     Load a tokenizer based on the specified encoder model.
     For dividing text into chunks.
