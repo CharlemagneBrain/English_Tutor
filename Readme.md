@@ -1,4 +1,4 @@
-# NexAI English Tutor
+# NexAI English Tutor using RAG
 
 Welcome to NexAI English Tutor, an intelligent tutoring system designed to help students prepare for the TOEFL exam. This application provides personalized exercises and responses based on the materials provided by the students.
 
