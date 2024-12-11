@@ -7,8 +7,8 @@ from func_tools import async_convert_to_text, load_tokenizer, load_transformers,
 
 def create_qdrant_index():
     client = QdrantClient(
-        url="https://c80cf935-0f6b-4fe6-af49-9da5c9752f82.us-east4-0.gcp.cloud.qdrant.io", 
-        api_key="Dc_jwEpz1fHy5oqx6OX1gUuDmCTkm-ghCo0dwyliQv7XYLN9KLFdVw",
+        url="https://4c7d05ec-2ebc-4f6a-ba50-5e5e2f1bc0d9.us-east4-0.gcp.cloud.qdrant.io:6333", 
+        api_key="5LCkUwYEtUjwmt4uXoGUky4rVT8Yn2tJ_cJFkFBLwcDN67uScTzykQ",
     )
     client.recreate_collection(
         collection_name="toefl_tutor",
@@ -18,8 +18,8 @@ def create_qdrant_index():
 async def ingest_files_to_qdrant():
 
     client = QdrantClient(
-        url="https://c80cf935-0f6b-4fe6-af49-9da5c9752f82.us-east4-0.gcp.cloud.qdrant.io", 
-        api_key="Dc_jwEpz1fHy5oqx6OX1gUuDmCTkm-ghCo0dwyliQv7XYLN9KLFdVw",
+        url="https://4c7d05ec-2ebc-4f6a-ba50-5e5e2f1bc0d9.us-east4-0.gcp.cloud.qdrant.io:6333", 
+        api_key="5LCkUwYEtUjwmt4uXoGUky4rVT8Yn2tJ_cJFkFBLwcDN67uScTzykQ",
     )
 
     tokenizer = load_tokenizer()

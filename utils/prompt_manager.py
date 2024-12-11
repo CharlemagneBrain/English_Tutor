@@ -1,4 +1,4 @@
-from utils.model_schema import Role, Message
+from model_schema import Role, Message
 
 def build_system_settings(context: str):
     return Message(
